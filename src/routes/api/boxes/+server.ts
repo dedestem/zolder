@@ -1,0 +1,29 @@
+import { openDb } from '$lib/db';
+import type { RequestHandler } from '@sveltejs/kit';
+import type { Box } from '$lib/types';
+
+export const GET: RequestHandler = async () => {
+  const db = await openDb();
+
+  const boxes: Box[] = await db.all(`SELECT * FROM boxes ORDER BY created_at DESC`);
+
+  return new Response(JSON.stringify(boxes), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};
+
+export const POST: RequestHandler = async () => {
+  const db = await openDb();
+
+  // Insert zonder data → alleen id en created_at vullen automatisch
+  const result = await db.run(`INSERT INTO boxes DEFAULT VALUES`);
+
+  // Haal de net gemaakte box op
+  const box: Box | undefined = await db.get(`SELECT * FROM boxes WHERE id = ?`, result.lastID);
+
+  return new Response(JSON.stringify(box), {
+    status: 201,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};

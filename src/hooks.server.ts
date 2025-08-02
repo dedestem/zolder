@@ -14,7 +14,6 @@ export async function handle({ event, resolve }) {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS boxes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      number TEXT NOT NULL UNIQUE,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
