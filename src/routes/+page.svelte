@@ -1,8 +1,12 @@
 <script>
-	import { Button } from "@davidnet/svelte-ui";
-
+	import Icon from "$lib/components/Icon.svelte";
+	import { Button, Loader } from "@davidnet/svelte-ui";
 </script>
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
 
-<Button appearance="discover" onClick={() => {}}>Hello</Button>
+<!--
+<Icon icon="inventory_2" size="5rem"/>
+<h1>Doos</h1>
+<Loader/>
+-->
+
+<h1>Test</h1>
