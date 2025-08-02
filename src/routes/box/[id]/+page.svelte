@@ -67,6 +67,7 @@
 {:else if box}
 	<p>Ja geladen!</p>
 	<p>Ik ben gemaakt op {formatDate(box.created_at)}</p>
+	
 {:else}
 	<Icon color="var(--token-color-text-danger)" icon="deployed_code_alert" size="10rem" />
 	<span>{error}</span>
@@ -77,8 +78,8 @@
 			appearance="subtle"
 			onClick={() => {
 				history.back();
-			}}>Terug</Button
-		>
-		
+			}}>
+			Terug
+		</Button>
 	</FlexWrapper>
 {/if}

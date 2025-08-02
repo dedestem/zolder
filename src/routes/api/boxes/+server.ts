@@ -16,10 +16,7 @@ export const GET: RequestHandler = async () => {
 export const POST: RequestHandler = async () => {
   const db = await openDb();
 
-  // Insert zonder data → alleen id en created_at vullen automatisch
   const result = await db.run(`INSERT INTO boxes DEFAULT VALUES`);
-
-  // Haal de net gemaakte box op
   const box: Box | undefined = await db.get(`SELECT * FROM boxes WHERE id = ?`, result.lastID);
 
   return new Response(JSON.stringify(box), {
