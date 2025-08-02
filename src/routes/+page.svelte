@@ -33,7 +33,7 @@
 	async function AddBox() {
 		showAddBoxModal = false;
 
-		const res = await fetch('/api/boxes', {
+		const res = await fetch('/api/box/', {
 			method: 'POST'
 		});
 
