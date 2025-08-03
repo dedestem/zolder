@@ -6,7 +6,9 @@
 		ConnectivityCheck,
 		ThemeMenu,
 		FlexWrapper,
-		Space
+		Space,
+		IconButton,
+		LinkIconButton
 	} from '@davidnet/svelte-ui';
 </script>
 
@@ -18,8 +20,8 @@
 	<div style="justify-content: left;" class="nav-part">
 		<a class="logo-btn" href="/">
 			<Icon icon="inventory_2" />
-			<Space width="var(--token-space-2)"/>
-			Doos
+			<Space width="var(--token-space-2)" />
+			Zolder Opruimer
 		</a>
 	</div>
 	<div style="justify-content: center;" class="nav-part">
@@ -29,9 +31,23 @@
 		</div>
 	</div>
 	<div style="justify-content: right;" class="nav-part">
-		<ThemeMenu/>
-		<a href="https://davidnet.n	et">
-			<img src="https://design.davidnet.net/images/logos/DNLogo.png" alt="Icon of davidnet that navigates to the davidnet website" height="40px"/>
+		<IconButton
+			icon="arrow_back"
+			onClick={() => {
+				history.back();
+			}}
+			alt="Terug"
+		/>
+		<LinkIconButton icon="new_label" alt="Labelmaker" appearance="subtle" href="/labelmaker/" />
+
+
+		<ThemeMenu />
+		<a href="https://davidnet.net">
+			<img
+				src="https://design.davidnet.net/images/logos/DNLogo.png"
+				alt="Icon of davidnet that navigates to the davidnet website"
+				height="30px"
+			/>
 		</a>
 	</div>
 </nav>
@@ -72,7 +88,8 @@
 		width: 100%;
 	}
 
-	.searchbar:hover, .searchbar button:hover {
+	.searchbar:hover,
+	.searchbar button:hover {
 		background-color: var(--token-color-surface-overlay-hover);
 		cursor: text;
 	}
@@ -91,9 +108,10 @@
 	}
 
 	main {
-		height: calc(100vh - 56px);
-		height: calc(100dvh - 56px);
-		width: 100vw;
-		width: 100dvw;
+		height: calc((100vh - 56px) - 4rem);
+		height: calc((100dvh - 56px) - 4rem);
+		width: calc(100vw - 4rem);
+		width: calc(100dvw - 4rem);
+		padding: 2rem;
 	}
 </style>

@@ -10,4 +10,8 @@ export type Item = {
 	created_at: string;
 };
 
+export type Label = {
+	id: number;
+};
+
 export type BoxWithItems = Box & { items: Item[] };
