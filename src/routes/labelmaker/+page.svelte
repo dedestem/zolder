@@ -130,9 +130,34 @@
 
 		printWindow.document.close();
 		printWindow.focus();
-		printWindow.print();
-		printWindow.close();
-		busyprint = false;
+
+		// Wait for all images to load before printing
+		const images = printWindow.document.images;
+		if (images.length === 0) {
+			printWindow.print();
+			printWindow.close();
+			busyprint = false;
+		} else {
+			let loaded = 0;
+			for (let i = 0; i < images.length; i++) {
+				images[i].onload = () => {
+					loaded++;
+					if (loaded === images.length) {
+						printWindow.print();
+						printWindow.close();
+						busyprint = false;
+					}
+				};
+				images[i].onerror = () => {
+					loaded++;
+					if (loaded === images.length) {
+						printWindow.print();
+						printWindow.close();
+						busyprint = false;
+					}
+				};
+			}
+		}
 	}
 </script>
 
