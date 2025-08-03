@@ -32,6 +32,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"qrcode": "^1.5.4",
 		"sqlite": "^5.1.1",
 		"sqlite3": "^5.1.7"
 	}

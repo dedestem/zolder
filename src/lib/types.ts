@@ -12,6 +12,7 @@ export type Item = {
 
 export type Label = {
 	id: number;
+	date: Date; //Required or it bugs out!
 };
 
 export type BoxWithItems = Box & { items: Item[] };

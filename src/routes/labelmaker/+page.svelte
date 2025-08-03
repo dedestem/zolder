@@ -2,19 +2,142 @@
 	import { labels } from '$lib/stores/labels';
 	import type { Label } from '$lib/types';
 	import { Button, FlexWrapper, IconButton, LinkButton, Space } from '@davidnet/svelte-ui';
+	import QRCode from 'qrcode';
+
+	let busyprint = false;
 
 	async function DeleteLabel(id: number) {
 		labels.update((current) => current.filter((label) => label.id !== id));
 	}
-	
-	async function PrintLabels() {
 
+	async function PrintLabels() {
+		const printWindow = window.open('', '', 'height=800,width=1100');
+		if (!printWindow) return;
+		busyprint = true;
+
+		const chunkSize = 4;
+		const chunks: (Label | null)[][] = [];
+		const labelsCopy = [...$labels];
+
+		while (labelsCopy.length > 0) {
+			chunks.push(labelsCopy.splice(0, chunkSize));
+		}
+
+		// QR-code data URLs per label genereren
+		const pagesHtml = await Promise.all(
+			chunks.map(async (chunk) => {
+				// vul aan tot 4
+				while (chunk.length < chunkSize) {
+					chunk.push(null);
+				}
+
+				const labelsHtml = await Promise.all(
+					chunk.map(async (label) => {
+						if (!label) return `<div class="print-label empty"></div>`;
+
+						// Genereer QR code data URL
+						const qrDataUrl = await QRCode.toDataURL(`http://192.168.1.20:5173/box/${label.id}`, {
+							width: 150,
+							margin: 1
+						});
+
+						return `
+						<div class="print-label">
+							<div class="label-id">#${label.id}</div>
+							<img class="qr" src="${qrDataUrl}" alt="QR Code" />
+							<div class="label-date">${label.date}</div>
+						</div>
+					`;
+					})
+				);
+
+				return `
+				<div class="page">
+					${labelsHtml.join('')}
+				</div>
+			`;
+			})
+		);
+
+		printWindow.document.write(`
+		<html>
+		<head>
+			<title>Print Labels</title>
+			<style>
+			@page {
+				size: A4 portrait;
+				margin: 10mm 5mm 10mm 5mm;
+			}
+			html, body {
+				width: 210mm;
+				height: 297mm;
+				margin: 0;
+				padding: 0;
+			}
+			.page {
+				display: grid;
+				grid-template-columns: 1fr 1fr; /* 2 columns */
+				grid-template-rows: 1fr 1fr;    /* 2 rows */
+				gap: 10mm;
+				height: 277mm; /* 297mm - 2*10mm margin */
+				padding: 10mm 5mm;
+				box-sizing: border-box;
+				page-break-after: always;
+			}
+			.print-label {
+				border: 2px solid black;
+				border-radius: 12px;
+				padding: 6mm;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				font-family: sans-serif;
+				min-height: 0;
+				min-width: 0;
+			}
+			.print-label.empty {
+				border: none;
+			}
+			.label-id {
+				font-size: 2.2rem;
+				font-weight: bold;
+				margin-bottom: 8mm;
+			}
+			.qr {
+				width: 38mm;
+				height: 38mm;
+				margin-bottom: 4mm;
+			}
+			.label-date {
+				font-size: 1rem;
+				color: #333;
+			}
+			@media print {
+				.page {
+					page-break-after: always;
+				}
+				.print-label {
+					page-break-inside: avoid;
+				}
+			}
+			</style>
+		</head>
+		<body>${pagesHtml.join('')}</body>
+		</html>
+	`);
+
+		printWindow.document.close();
+		printWindow.focus();
+		printWindow.print();
+		printWindow.close();
+		busyprint = false;
 	}
 </script>
 
 {#if $labels.length}
 	<div class="labels">
-		{#each $labels as label (label.id)}
+		{#each $labels as label (label.date)}
 			<div class="label">
 				Doos #{label.id}
 
@@ -25,11 +148,14 @@
 					onClick={() => {
 						DeleteLabel(label.id);
 					}}
+					loading={busyprint}
 				/>
 			</div>
 		{/each}
 	</div>
-	<Button appearance="primary" onClick={PrintLabels} iconbefore="print">Print labels</Button>
+	<Button loading={busyprint} appearance="primary" onClick={PrintLabels} iconbefore="print"
+		>Print labels</Button
+	>
 {:else}
 	<h1>Geen labels in de labelmaker.</h1>
 	<p>Voeg labels toe door op "Maak label" te klikken bij dozen.</p>

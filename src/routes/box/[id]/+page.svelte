@@ -26,7 +26,7 @@
 	let showDeleteBoxModal = false;
 	let showCreateLabelModal = false;
 	let showDeleteAllItemsModal = false;
-
+	
 	onMount(async () => {
 		id = page.params.id;
 		Loading = true;
@@ -289,7 +289,7 @@
 			return;
 		}
 
-		labels.update((current) => (box ? [...current, { id: Number(box.id) }] : current));
+		labels.update((current) => (box ? [...current, { id: Number(box.id), date: new Date() }] : current));
 		showCreateLabelModal = false;
 	}
 </script>
