@@ -6,8 +6,8 @@
 
 	let busyprint = false;
 
-	async function DeleteLabel(id: number) {
-		labels.update((current) => current.filter((label) => label.id !== id));
+	async function DeleteLabel(date: Date) {
+		labels.update((current) => current.filter((label) => label.date !== date));
 	}
 
 	async function PrintLabels() {
@@ -85,13 +85,14 @@
 				page-break-after: always;
 			}
 			.print-label {
-				border: 2px solid black;
+				border: 10px solid black;
 				border-radius: 12px;
 				padding: 6mm;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
+				text-align: center;
 				font-family: sans-serif;
 				min-height: 0;
 				min-width: 0;
@@ -105,8 +106,8 @@
 				margin-bottom: 8mm;
 			}
 			.qr {
-				width: 38mm;
-				height: 38mm;
+				width: 50mm;
+				height: 50mm;
 				margin-bottom: 4mm;
 			}
 			.label-date {
@@ -146,7 +147,7 @@
 					appearance="danger"
 					alt="Verwijder label van print lijst."
 					onClick={() => {
-						DeleteLabel(label.id);
+						DeleteLabel(label.date);
 					}}
 					loading={busyprint}
 				/>
