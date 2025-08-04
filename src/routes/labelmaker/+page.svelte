@@ -37,7 +37,7 @@
 						if (!label) return `<div class="print-label empty"></div>`;
 
 						// Genereer QR code data URL
-						const qrDataUrl = await QRCode.toDataURL(`http://192.168.1.20:5173/box/${label.id}`, {
+						const qrDataUrl = await QRCode.toDataURL(`https://zolder.internal/box/${label.id}`, {
 							width: 150,
 							margin: 1
 						});
@@ -46,6 +46,7 @@
 						<div class="print-label">
 							<div class="label-id">#${label.id}</div>
 							<img class="qr" src="${qrDataUrl}" alt="QR Code" />
+							https://zolder.internal/box/${label.id}
 							<div class="label-date">${label.date}</div>
 						</div>
 					`;

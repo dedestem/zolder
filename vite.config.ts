@@ -5,5 +5,8 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	optimizeDeps: {
 		exclude: ["@davidnet/svelte-ui"]
+	},
+	preview: {
+		allowedHosts: ["https://zolder.internal"]
 	}
 });
