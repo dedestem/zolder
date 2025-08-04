@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { labels } from '$lib/stores/labels';
 	import type { Label } from '$lib/types';
-	import { Button, FlexWrapper, IconButton, LinkButton, Space } from '@davidnet/svelte-ui';
+	import { Button, FlexWrapper, IconButton, LinkButton, Space, Modal } from '@davidnet/svelte-ui';
 	import QRCode from 'qrcode';
 
 	let busyprint = false;
+	let showDeleteAllLabelsModal = false;
 
 	async function DeleteLabel(date: Date) {
 		labels.update((current) => current.filter((label) => label.date !== date));
@@ -60,73 +61,73 @@
 		);
 
 		printWindow.document.write(`
-		<html>
-		<head>
-			<title>Print Labels</title>
-			<style>
-			@page {
-				size: A4 portrait;
-				margin: 10mm 5mm 10mm 5mm;
-			}
-			html, body {
-				width: 210mm;
-				height: 297mm;
-				margin: 0;
-				padding: 0;
-			}
-			.page {
-				display: grid;
-				grid-template-columns: 1fr 1fr; /* 2 columns */
-				grid-template-rows: 1fr 1fr;    /* 2 rows */
-				gap: 10mm;
-				height: 277mm; /* 297mm - 2*10mm margin */
-				padding: 10mm 5mm;
-				box-sizing: border-box;
-				page-break-after: always;
-			}
-			.print-label {
-				border: 10px solid black;
-				border-radius: 12px;
-				padding: 6mm;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				text-align: center;
-				font-family: sans-serif;
-				min-height: 0;
-				min-width: 0;
-			}
-			.print-label.empty {
-				border: none;
-			}
-			.label-id {
-				font-size: 2.2rem;
-				font-weight: bold;
-				margin-bottom: 8mm;
-			}
-			.qr {
-				width: 50mm;
-				height: 50mm;
-				margin-bottom: 4mm;
-			}
-			.label-date {
-				font-size: 1rem;
-				color: #333;
-			}
-			@media print {
+			<html>
+			<head>
+				<title>Print Labels</title>
+				<style>
+				@page {
+					size: A4 portrait;
+					margin: 10mm 5mm 10mm 5mm;
+				}
+				html, body {
+					width: 210mm;
+					height: 297mm;
+					margin: 0;
+					padding: 0;
+				}
 				.page {
+					display: grid;
+					grid-template-columns: 1fr 1fr; /* 2 columns */
+					grid-template-rows: 1fr 1fr;    /* 2 rows */
+					gap: 10mm;
+					height: 277mm; /* 297mm - 2*10mm margin */
+					padding: 10mm 5mm;
+					box-sizing: border-box;
 					page-break-after: always;
 				}
 				.print-label {
-					page-break-inside: avoid;
+					border: 10px solid black;
+					border-radius: 12px;
+					padding: 6mm;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+					font-family: sans-serif;
+					min-height: 0;
+					min-width: 0;
 				}
-			}
-			</style>
-		</head>
-		<body>${pagesHtml.join('')}</body>
-		</html>
-	`);
+				.print-label.empty {
+					border: none;
+				}
+				.label-id {
+					font-size: 2.2rem;
+					font-weight: bold;
+					margin-bottom: 8mm;
+				}
+				.qr {
+					width: 50mm;
+					height: 50mm;
+					margin-bottom: 4mm;
+				}
+				.label-date {
+					font-size: 1rem;
+					color: #333;
+				}
+				@media print {
+					.page {
+						page-break-after: always;
+					}
+					.print-label {
+						page-break-inside: avoid;
+					}
+				}
+				</style>
+			</head>
+			<body>${pagesHtml.join('')}</body>
+			</html>
+		`);
 
 		printWindow.document.close();
 		printWindow.focus();
@@ -159,6 +160,10 @@
 			}
 		}
 	}
+
+	async function DeleteAllLabels() {
+		labels.set([]);
+	}
 </script>
 
 {#if $labels.length}
@@ -179,9 +184,31 @@
 			</div>
 		{/each}
 	</div>
-	<Button loading={busyprint} appearance="primary" onClick={PrintLabels} iconbefore="print"
-		>Print labels</Button
-	>
+
+	<FlexWrapper direction="row" gap="10px">
+		<Button loading={busyprint} appearance="primary" onClick={PrintLabels} iconbefore="print"
+			>Print labels</Button
+		>
+
+		<Button
+			appearance="danger"
+			onClick={() => {
+				showDeleteAllLabelsModal = true;
+			}}
+			iconbefore="contract_delete"
+		>
+			Printlijst legen
+		</Button>
+		<Button
+			appearance="subtle"
+			onClick={() => {
+				history.back();
+			}}
+			iconbefore="arrow_back"
+		>
+			Terug
+		</Button>
+	</FlexWrapper>
 {:else}
 	<h1>Geen labels in de labelmaker.</h1>
 	<p>Voeg labels toe door op "Maak label" te klikken bij dozen.</p>
@@ -197,6 +224,31 @@
 			Terug
 		</Button>
 	</FlexWrapper>
+{/if}
+
+{#if showDeleteAllLabelsModal}
+	<Modal
+		title="Printlijst legen?"
+		titleIcon="contract_delete"
+		desc="Alle labels van de print lijst verwijderen? Dit kan niet ongedaan worden."
+		hasCloseBtn
+		on:close={() => (showDeleteAllLabelsModal = false)}
+		options={[
+			{
+				appearance: 'danger',
+				content: 'Printlijst legen',
+				onClick: () => {
+					labels.set([]);
+					showDeleteAllLabelsModal = false;
+				}
+			},
+			{
+				appearance: 'subtle',
+				content: 'Annuleren',
+				onClick: () => (showDeleteAllLabelsModal = false)
+			}
+		]}
+	/>
 {/if}
 
 <style>
