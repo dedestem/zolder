@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
+	import SearchModal from '$lib/components/SearchModal.svelte';
 	import {
 		ThemeProvider,
 		Toaster,
@@ -10,6 +11,8 @@
 		IconButton,
 		LinkIconButton
 	} from '@davidnet/svelte-ui';
+
+	let showSearch = false;
 </script>
 
 <ThemeProvider />
@@ -26,7 +29,7 @@
 	</div>
 	<div style="justify-content: center;" class="nav-part">
 		<div class="searchbar">
-			<button on:click={() => {}}>Spullen Zoeker</button>
+			<button on:click={() => {showSearch = true}}>Spullen Zoeker</button>
 			<Icon icon="search" size="1.5rem" />
 		</div>
 	</div>
@@ -63,6 +66,9 @@
 		<slot />
 	</FlexWrapper>
 </main>
+
+
+<SearchModal open={showSearch} onClose={() => showSearch = false} />
 
 <style>
 	nav {
