@@ -7,6 +7,6 @@ export default defineConfig({
 		exclude: ["@davidnet/svelte-ui"]
 	},
 	preview: {
-		allowedHosts: ["https://zolder.internal"]
+		allowedHosts: ["zolder.internal"]
 	}
 });
