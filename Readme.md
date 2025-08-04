@@ -3,11 +3,7 @@
 </div>
 
 <div align="center">
-  <picture>
-    <source srcset="meta/inventory_2_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="meta/inventory_2_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg" media="(prefers-color-scheme: light)">
-    <img src="meta/inventory_2_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg" alt="Logo" width="200">
-  </picture>
+  <img src="meta/inventory_2_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg" alt="Logo" width="200">
   <h1>Zolder</h1>
   <p>An internal Zolder organizer tool.</p>
   
