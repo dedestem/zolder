@@ -1,8 +1,8 @@
 import { openDb } from '$lib/db';
 
-let dbInit: Promise<void> | null = null;
+let InitPromise: Promise<void> | null = null;
 
-async function initializeDb() {
+async function InitDB() {
 	const db = await openDb();
 
 	await db.exec(`PRAGMA foreign_keys = ON;`);
@@ -23,10 +23,14 @@ async function initializeDb() {
 	`);
 }
 
-dbInit = initializeDb();
+InitPromise = init();
+
+async function init() {
+	await InitDB();
+}
 
 export async function handle({ event, resolve }) {
 	// Ensure the DB is initialized before handling requests
-	await dbInit;
+	await InitPromise;
 	return resolve(event);
 }
