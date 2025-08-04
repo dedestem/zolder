@@ -39,13 +39,13 @@
 		<LinkIconButton icon="new_label" alt="Labelmaker" appearance="subtle" href="/labelmaker/" />
 
 		<ThemeMenu />
-		<a href="https://davidnet.net">
-			<img
-				src="https://design.davidnet.net/images/logos/DNLogo.png"
-				alt="Icon of davidnet that navigates to the davidnet website"
-				height="30px"
-			/>
-		</a>
+		<LinkIconButton
+			icon="https://design.davidnet.net/images/logos/external/github/github-mark-dark.svg"
+			appearance="subtle"
+			lighticon="https://design.davidnet.net/images/logos/external/github/github-mark-white.svg"
+			alt="Github Repository"
+			href="https://github.com/dedestem/zolder/"
+		/>
 	</div>
 </nav>
 
