@@ -1,16 +1,7 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import SearchModal from '$lib/components/SearchModal.svelte';
-	import {
-		ThemeProvider,
-		Toaster,
-		ConnectivityCheck,
-		ThemeMenu,
-		FlexWrapper,
-		Space,
-		IconButton,
-		LinkIconButton
-	} from '@davidnet/svelte-ui';
+	import Icon from "$lib/components/Icon.svelte";
+	import SearchModal from "$lib/components/SearchModal.svelte";
+	import { ThemeProvider, Toaster, ConnectivityCheck, ThemeMenu, FlexWrapper, Space, IconButton, LinkIconButton } from "@davidnet/svelte-ui";
 
 	let showSearch = false;
 </script>
@@ -29,7 +20,11 @@
 	</div>
 	<div style="justify-content: center;" class="nav-part">
 		<div class="searchbar">
-			<button on:click={() => {showSearch = true}}>Spullen Zoeker</button>
+			<button
+				on:click={() => {
+					showSearch = true;
+				}}>Spullen Zoeker</button
+			>
 			<Icon icon="search" size="1.5rem" />
 		</div>
 	</div>
@@ -43,7 +38,6 @@
 		/>
 		<LinkIconButton icon="new_label" alt="Labelmaker" appearance="subtle" href="/labelmaker/" />
 
-
 		<ThemeMenu />
 		<a href="https://davidnet.net">
 			<img
@@ -56,19 +50,12 @@
 </nav>
 
 <main>
-	<FlexWrapper
-		direction="column"
-		justifycontent="center"
-		alignitems="center"
-		height="100%"
-		width="100%"
-	>
+	<FlexWrapper direction="column" justifycontent="center" alignitems="center" height="100%" width="100%">
 		<slot />
 	</FlexWrapper>
 </main>
 
-
-<SearchModal open={showSearch} onClose={() => showSearch = false} />
+<SearchModal open={showSearch} onClose={() => (showSearch = false)} />
 
 <style>
 	nav {

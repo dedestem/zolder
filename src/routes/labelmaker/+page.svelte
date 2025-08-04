@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { labels } from '$lib/stores/labels';
-	import type { Label } from '$lib/types';
-	import { Button, FlexWrapper, IconButton, LinkButton, Space, Modal } from '@davidnet/svelte-ui';
-	import QRCode from 'qrcode';
+	import { labels } from "$lib/stores/labels";
+	import type { Label } from "$lib/types";
+	import { Button, FlexWrapper, IconButton, LinkButton, Space, Modal } from "@davidnet/svelte-ui";
+	import QRCode from "qrcode";
 
 	let busyprint = false;
 	let showDeleteAllLabelsModal = false;
@@ -12,7 +12,7 @@
 	}
 
 	async function PrintLabels() {
-		const printWindow = window.open('', '', 'height=800,width=1100');
+		const printWindow = window.open("", "", "height=800,width=1100");
 		if (!printWindow) return;
 		busyprint = true;
 
@@ -54,7 +54,7 @@
 
 				return `
 				<div class="page">
-					${labelsHtml.join('')}
+					${labelsHtml.join("")}
 				</div>
 			`;
 			})
@@ -125,7 +125,7 @@
 				}
 				</style>
 			</head>
-			<body>${pagesHtml.join('')}</body>
+			<body>${pagesHtml.join("")}</body>
 			</html>
 		`);
 
@@ -160,10 +160,6 @@
 			}
 		}
 	}
-
-	async function DeleteAllLabels() {
-		labels.set([]);
-	}
 </script>
 
 {#if $labels.length}
@@ -186,9 +182,7 @@
 	</div>
 
 	<FlexWrapper direction="row" gap="10px">
-		<Button loading={busyprint} appearance="primary" onClick={PrintLabels} iconbefore="print"
-			>Print labels</Button
-		>
+		<Button loading={busyprint} appearance="primary" onClick={PrintLabels} iconbefore="print">Print labels</Button>
 
 		<Button
 			appearance="danger"
@@ -235,16 +229,16 @@
 		on:close={() => (showDeleteAllLabelsModal = false)}
 		options={[
 			{
-				appearance: 'danger',
-				content: 'Printlijst legen',
+				appearance: "danger",
+				content: "Printlijst legen",
 				onClick: () => {
 					labels.set([]);
 					showDeleteAllLabelsModal = false;
 				}
 			},
 			{
-				appearance: 'subtle',
-				content: 'Annuleren',
+				appearance: "subtle",
+				content: "Annuleren",
 				onClick: () => (showDeleteAllLabelsModal = false)
 			}
 		]}

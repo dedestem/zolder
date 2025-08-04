@@ -1,8 +1,8 @@
-import { openDb } from '$lib/db';
-import type { RequestHandler } from '@sveltejs/kit';
+import { openDb } from "$lib/db";
+import type { RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ url }) => {
-	const q = url.searchParams.get('q') || '';
+	const q = url.searchParams.get("q") || "";
 
 	const db = await openDb();
 
@@ -20,7 +20,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	return new Response(JSON.stringify(items), {
 		headers: {
-			'Content-Type': 'application/json'
+			"Content-Type": "application/json"
 		}
 	});
 };

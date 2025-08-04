@@ -1,4 +1,4 @@
-import { openDb } from '$lib/db';
+import { openDb } from "$lib/db";
 
 let InitPromise: Promise<void> | null = null;
 

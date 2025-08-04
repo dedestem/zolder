@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import { onMount } from 'svelte';
+	import { writable } from "svelte/store";
 
 	export let open = false;
 	export let onClose = () => {};
 
-	let query = '';
+	let query = "";
 	let results = writable<{ id: number; name: string; box_id: number }[]>([]);
 
 	async function search() {
@@ -19,7 +18,7 @@
 	}
 
 	function closeModal() {
-		query = '';
+		query = "";
 		results.set([]);
 		onClose();
 	}
@@ -34,7 +33,7 @@
 		<!-- svelte-ignore a11y_autofocus -->
 		<input type="text" placeholder="Zoek item..." bind:value={query} on:input={search} autofocus />
 		<ul>
-			{#each $results as item}
+			{#each $results as item (item.id)}
 				<li>{item.name} — Doos #{item.box_id}</li>
 			{/each}
 		</ul>
@@ -65,7 +64,7 @@
 		width: 400px;
 		max-width: 90%;
 		font-family: var(--token-font-main);
-        z-index: 1001;
+		z-index: 1001;
 	}
 
 	.close-btn {

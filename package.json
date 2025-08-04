@@ -10,7 +10,7 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format": "prettier --write .",
+		"fmt": "prettier --write .",
 		"lint": "prettier --check . && eslint ."
 	},
 	"devDependencies": {
@@ -33,6 +33,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"@davidnet/svelte-ui": "^1.9.1",
 		"qrcode": "^1.5.4",
 		"sqlite": "^5.1.1",
 		"sqlite3": "^5.1.7"

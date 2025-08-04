@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { Button, LinkButton, Modal, Space, toast } from '@davidnet/svelte-ui';
-	import type { Box } from '$lib/types';
-	import { formatDate } from '$lib/utils';
+	import { onMount } from "svelte";
+	import { Button, LinkButton, Modal, Space, toast } from "@davidnet/svelte-ui";
+	import type { Box } from "$lib/types";
+	import { formatDate } from "$lib/utils";
 
 	let boxes: Box[] = [];
 
@@ -12,14 +12,14 @@
 	}
 
 	onMount(async () => {
-		const res = await fetch('/api/boxes');
+		const res = await fetch("/api/boxes");
 		if (!res.ok) {
 			toast({
-				title: 'Kon dozen niet ophalen',
-				desc: 'Error: ' + res.status + ' | ' + res.statusText,
-				icon: 'deployed_code_alert',
-				appearance: 'danger',
-				position: 'bottom-left'
+				title: "Kon dozen niet ophalen",
+				desc: "Error: " + res.status + " | " + res.statusText,
+				icon: "deployed_code_alert",
+				appearance: "danger",
+				position: "bottom-left"
 			});
 			console.error("Could not load boxes: " + res.status + " | " + res.statusText);
 			return;
@@ -33,8 +33,8 @@
 	async function AddBox() {
 		showAddBoxModal = false;
 
-		const res = await fetch('/api/box/', {
-			method: 'POST'
+		const res = await fetch("/api/box/", {
+			method: "POST"
 		});
 
 		if (res.ok) {
@@ -42,22 +42,22 @@
 			boxes = [...boxes, newBox];
 			sortBoxes();
 			toast({
-				title: 'Doos toegevoegd',
-				desc: 'Doos ' + newBox.id + ' is succesvol aangemaakt.',
-				icon: 'package_2',
-				appearance: 'success',
-				position: 'bottom-left',
+				title: "Doos toegevoegd",
+				desc: "Doos " + newBox.id + " is succesvol aangemaakt.",
+				icon: "package_2",
+				appearance: "success",
+				position: "bottom-left",
 				autoDismiss: 3000
 			});
 		} else {
 			toast({
-				title: 'Doos niet toegevoegd',
-				desc: 'Error: ' + res.status + ' | ' + res.statusText,
-				icon: 'deployed_code_alert',
-				appearance: 'danger',
-				position: 'bottom-left'
+				title: "Doos niet toegevoegd",
+				desc: "Error: " + res.status + " | " + res.statusText,
+				icon: "deployed_code_alert",
+				appearance: "danger",
+				position: "bottom-left"
 			});
-			console.error("Could not create box: " + res.status + " | " + res.statusText)
+			console.error("Could not create box: " + res.status + " | " + res.statusText);
 		}
 	}
 </script>
@@ -72,7 +72,7 @@
 	<p>Kon geen dozen vinden.</p>
 {:else}
 	<div class="grid">
-		{#each boxes as box}
+		{#each boxes as box (box.id)}
 			<div class="box">
 				<div class="box-id">{box.id}</div>
 				<div class="box-date">Aangemaakt: <br />{formatDate(box.created_at)}</div>
@@ -102,8 +102,8 @@
 		hasCloseBtn
 		on:close={() => (showAddBoxModal = false)}
 		options={[
-			{ appearance: 'primary', content: 'Doos toevoegen', onClick: AddBox },
-			{ appearance: 'subtle', content: 'Annuleren', onClick: () => (showAddBoxModal = false) }
+			{ appearance: "primary", content: "Doos toevoegen", onClick: AddBox },
+			{ appearance: "subtle", content: "Annuleren", onClick: () => (showAddBoxModal = false) }
 		]}
 	/>
 {/if}

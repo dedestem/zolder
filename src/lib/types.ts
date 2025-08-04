@@ -1,6 +1,6 @@
 export interface Box {
-  id: number;
-  created_at: string;
+	id: number;
+	created_at: string;
 }
 
 export type Item = {
