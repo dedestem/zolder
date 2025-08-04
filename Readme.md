@@ -11,6 +11,6 @@
   
   [![Code Quality](https://github.com/dedestem/zolder/actions/workflows/codequality.yaml/badge.svg)](https://github.com/dedestem/zolder/actions/workflows/codequality.yaml)
 
-<a href="https://github.com/davidnet-net/svelte-ui#license">MIT License</a>
+<a href="https://github.com/dedestem/zolder?tab=MIT-1-ov-file">MIT License</a>
 
 </div>
