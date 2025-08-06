@@ -39,13 +39,6 @@
 		<LinkIconButton icon="new_label" alt="Labelmaker" appearance="subtle" href="/labelmaker/" />
 
 		<ThemeMenu />
-		<LinkIconButton
-			icon="https://design.davidnet.net/images/logos/external/github/github-mark-dark.svg"
-			appearance="subtle"
-			lighticon="https://design.davidnet.net/images/logos/external/github/github-mark-white.svg"
-			alt="Github Repository"
-			href="https://github.com/dedestem/zolder/"
-		/>
 	</div>
 </nav>
 
